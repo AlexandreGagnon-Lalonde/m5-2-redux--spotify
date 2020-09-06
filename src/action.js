@@ -23,3 +23,12 @@ export const receiveArtistProfile = (currentArtist) => ({
 export const receiveArtistProfileError = () => ({
   type: "RECEIVE_ARTIST_PROFILE_ERROR",
 });
+
+export const receiveTopTracks = (topTracks) =>( {
+  type: "RECEIVE_TOP_TRACKS",
+  topTracks,
+});
+
+export const finishReceivingAllArtistProfile = () => ({
+  type: "FINISH_RECEIVING_ALL_ARTIST_PROFILE"
+});

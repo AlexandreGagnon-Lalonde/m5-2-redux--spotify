@@ -16,7 +16,7 @@ export default function artistsReducer(state = initialState, action) {
         ...state,
         status: "Idle",
         currentArtist: {
-          profile: action.currentArtist
+          profile: action.currentArtist,
         }
       };
     }
@@ -24,6 +24,21 @@ export default function artistsReducer(state = initialState, action) {
       return {
         ...state,
         status: "Error",
+      };
+    }
+    case "FINISH_RECEIVING_ALL_ARTIST_PROFILE": {
+      return {
+        ...state,
+        status: "Finish",
+      };
+    }
+    case "RECEIVE_TOP_TRACKS": {
+      return {
+        ...state,
+        status: "Idle",
+        topTracks: {
+          tracks: action.topTracks,
+        }
       };
     }
     default: {

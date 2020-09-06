@@ -8,27 +8,47 @@ import {
   Link,
   useParams,
 } from "react-router-dom";
-import { fetchArtistProfile } from "../../helpers/api-helpers";
-import { receiveArtistProfile } from "../../action";
+import { fetchArtistProfile, fetchTopTracks } from "../../helpers/api-helpers";
+import {
+  receiveArtistProfile,
+  receiveTopTracks,
+  finishReceivingAllArtistProfile,
+} from "../../action";
 
-let numeral = require('numeral');
+let numeral = require("numeral");
 
 const ArtistRoute = () => {
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.auth.token);
   const currentArtist = useSelector((state) => state.artists.currentArtist);
+  const topTracks = useSelector((state) => state.artists.topTracks);
   const artistId = useParams();
 
   React.useEffect(() => {
     if (!accessToken) {
       return;
     }
-    fetchArtistProfile(accessToken, artistId.id).then((profile) => {
-      dispatch(receiveArtistProfile(profile));
-    });
+
+    let artistProfilePromise = fetchArtistProfile(accessToken, artistId.id)
+      .then((data) => {
+        console.log();
+        dispatch(receiveArtistProfile(data));
+      })
+      .catch((err) => console.log(err));
+    let artistTopTracksPromise = fetchTopTracks(accessToken, artistId.id)
+      .then((data) => {
+        dispatch(receiveTopTracks(data));
+      })
+      .catch((err) => console.log(err));
+
+    Promise.all([artistProfilePromise, artistTopTracksPromise])
+      .then((data) => {
+        dispatch(finishReceivingAllArtistProfile());
+      })
+      .catch((err) => console.log(err));
   }, [accessToken]);
 
-  if (!currentArtist) {
+  if (!currentArtist && !topTracks) {
     return "Loading";
   } else {
     return (
@@ -38,19 +58,26 @@ const ArtistRoute = () => {
           <ArtistName>{currentArtist.profile.name}</ArtistName>
           <Follower>
             <FollowerNumber>
-              {numeral(currentArtist.profile.followers.total).format('0.0a')}
+              {numeral(currentArtist.profile.followers.total).format("0.0a")}
             </FollowerNumber>{" "}
             Followers
           </Follower>
         </Artist>
-
+        <Tracks>
+          {topTracks
+            ? topTracks.tracks.tracks.map((track, index) => {
+                if (index < 3) {
+                  return <Track>{track.name}</Track>;
+                }
+              })
+            : null}
+        </Tracks>
         <GenreContainer>
           <TagTitle>Tags</TagTitle>
           <Tags>
-            {currentArtist.profile.genres.map(genre => {
+            {currentArtist.profile.genres.map((genre) => {
               if (genre) {
-                return <Tag>{genre}</Tag>
-
+                return <Tag>{genre}</Tag>;
               }
             })}
           </Tags>
@@ -70,24 +97,11 @@ const StyledDiv = styled.div`
   background-color: #0b0f14;
   margin: 50px auto;
 `;
+
 const GenreContainer = styled.div``;
 const Tags = styled.div`
   display: flex;
   position: relative;
-`;
-const ArtistName = styled.h2`
-  color: #fff;
-  text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.75), 0px 4px 4px rgba(0, 0, 0, 0.5),
-    4px 8px 25px #000000;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 48px;
-  line-height: 59px;
-  position: absolute;
-  width: 220px;
-  bottom: 0;
-  left: calc(50% - 110px);
 `;
 const TagTitle = styled.h3`
   color: #fff;
@@ -102,13 +116,28 @@ const Tag = styled.p`
 
   &:before {
     content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-width: 0 0 10px 10px;
-  border-style: solid;
-  border-color: #797F86 #0B0F14;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-width: 0 0 10px 10px;
+    border-style: solid;
+    border-color: #797f86 #0b0f14;
   }
+`;
+
+const ArtistName = styled.h2`
+  color: #fff;
+  text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.75), 0px 4px 4px rgba(0, 0, 0, 0.5),
+    4px 8px 25px #000000;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 59px;
+  position: absolute;
+  width: 220px;
+  bottom: 0;
+  left: calc(50% - 110px);
 `;
 const FollowerNumber = styled.span`
   color: #ff4fd8;
@@ -129,5 +158,17 @@ const Artist = styled.div`
   text-align: center;
   position: relative;
 `;
+
+const Tracks = styled.div``;
+const Track = styled.p`
+  color: #fff;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  text-transform: lowercase;
+`;
+
 
 export default ArtistRoute;
