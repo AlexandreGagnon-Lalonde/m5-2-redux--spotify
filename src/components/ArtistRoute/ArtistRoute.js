@@ -11,6 +11,8 @@ import {
 import { fetchArtistProfile } from "../../helpers/api-helpers";
 import { receiveArtistProfile } from "../../action";
 
+let numeral = require('numeral');
+
 const ArtistRoute = () => {
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.auth.token);
@@ -36,7 +38,7 @@ const ArtistRoute = () => {
           <ArtistName>{currentArtist.profile.name}</ArtistName>
           <Follower>
             <FollowerNumber>
-              {currentArtist.profile.followers.total}
+              {numeral(currentArtist.profile.followers.total).format('0.0a')}
             </FollowerNumber>{" "}
             Followers
           </Follower>
