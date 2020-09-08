@@ -41,6 +41,15 @@ export default function artistsReducer(state = initialState, action) {
         }
       };
     }
+    case "RECEIVE_RELATED_ARTISTS": {
+      return {
+        ...state,
+        status: "Idle",
+        relatedArtists: {
+          artists: action.relatedArtists,
+        }
+      }
+    }
     case "PLAY_SONG": {
       return {
         ...state,

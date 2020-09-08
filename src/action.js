@@ -42,3 +42,8 @@ export const pauseSong = () => ({
 export const stopSong = () => ({
   type: "STOP_SONG",
 })
+
+export const receiveRelatedArtists = (relatedArtists) => ({
+  type: "RECEIVE_RELATED_ARTISTS",
+  relatedArtists,
+})
