@@ -17,7 +17,7 @@ export default function artistsReducer(state = initialState, action) {
         status: "Idle",
         currentArtist: {
           profile: action.currentArtist,
-        }
+        },
       };
     }
     case "RECEIVE_ARTIST_PROFILE_ERROR": {
@@ -38,7 +38,7 @@ export default function artistsReducer(state = initialState, action) {
         status: "Idle",
         topTracks: {
           tracks: action.topTracks,
-        }
+        },
       };
     }
     case "RECEIVE_RELATED_ARTISTS": {
@@ -47,8 +47,8 @@ export default function artistsReducer(state = initialState, action) {
         status: "Idle",
         relatedArtists: {
           artists: action.relatedArtists,
-        }
-      }
+        },
+      };
     }
     case "PLAY_SONG": {
       return {

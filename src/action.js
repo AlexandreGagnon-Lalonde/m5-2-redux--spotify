@@ -24,7 +24,7 @@ export const receiveArtistProfileError = () => ({
   type: "RECEIVE_ARTIST_PROFILE_ERROR",
 });
 
-export const receiveTopTracks = (topTracks) =>( {
+export const receiveTopTracks = (topTracks) => ({
   type: "RECEIVE_TOP_TRACKS",
   topTracks,
 });
@@ -35,15 +35,15 @@ export const finishReceivingAllArtistProfile = () => ({
 
 export const playSong = () => ({
   type: "PLAY_SONG",
-})
+});
 export const pauseSong = () => ({
   type: "PAUSE_SONG",
-})
+});
 export const stopSong = () => ({
   type: "STOP_SONG",
-})
+});
 
 export const receiveRelatedArtists = (relatedArtists) => ({
   type: "RECEIVE_RELATED_ARTISTS",
   relatedArtists,
-})
+});

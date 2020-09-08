@@ -1,14 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from "react-router-dom";
-import { PlayButton } from "react-play-button";
+import { BrowserRouter as Router, Link, useParams } from "react-router-dom";
+// import { PlayButton } from "react-play-button";
 
 import {
   fetchArtistProfile,
@@ -22,8 +16,8 @@ import {
   receiveRelatedArtists,
 } from "../../action";
 import { FaPlay } from "react-icons/fa";
-import { FaStop } from "react-icons/fa";
-import { FaPause } from "react-icons/fa";
+// import { FaStop } from "react-icons/fa";
+// import { FaPause } from "react-icons/fa";
 
 let numeral = require("numeral");
 
@@ -51,13 +45,11 @@ const ArtistRoute = () => {
         dispatch(receiveTopTracks(data));
       })
       .catch((err) => console.log(err));
-    let relatedArtistsPromise = fetchRelatedArtists(
-      accessToken,
-      artistId.id
-    ).then((data) => {
-      dispatch(receiveRelatedArtists(data));
-    });
-
+    let relatedArtistsPromise = fetchRelatedArtists(accessToken, artistId.id)
+      .then((data) => {
+        dispatch(receiveRelatedArtists(data));
+      })
+      .catch((err) => console.log(err));
     Promise.all([
       artistProfilePromise,
       artistTopTracksPromise,
@@ -67,7 +59,7 @@ const ArtistRoute = () => {
         dispatch(finishReceivingAllArtistProfile());
       })
       .catch((err) => console.log(err));
-  }, [accessToken]);
+  }, [accessToken, artistId]);
 
   if (!currentArtist && !topTracks) {
     return "Loading";
@@ -90,13 +82,14 @@ const ArtistRoute = () => {
           <TrackContainer>
             {topTracks
               ? topTracks.tracks.tracks.map((track, index) => {
-                  console.log(track);
                   if (index < 3) {
                     return (
-                      <Track>
+                      <Track key={track.name}>
                         <FaPlay />
                       </Track>
                     );
+                  } else {
+                    return null;
                   }
                 })
               : null}
@@ -106,9 +99,11 @@ const ArtistRoute = () => {
         <GenreContainer>
           <TagTitle>Tags</TagTitle>
           <Tags>
-            {currentArtist.profile.genres.map((genre) => {
-              if (genre) {
-                return <Tag>{genre}</Tag>;
+            {currentArtist.profile.genres.map((genre, index) => {
+              if (index < 2) {
+                return <Tag key={genre}>{genre}</Tag>;
+              } else {
+                return null;
               }
             })}
           </Tags>
@@ -119,9 +114,11 @@ const ArtistRoute = () => {
           <ArtistContainer>
             {relatedArtist
               ? relatedArtist.artists.artists.map((artist) => {
-                  console.log(artist);
                   return (
-                    <IndiArtistContainer style={{position: 'relative'}}>
+                    <IndiArtistContainer
+                      to={`/artist/${artist.id}`}
+                      key={artist.name}
+                    >
                       <StyledImage src={artist.images[2].url} />
                       <RelArtistName>{artist.name}</RelArtistName>
                     </IndiArtistContainer>
@@ -201,6 +198,8 @@ const Follower = styled.p`
 `;
 const ArtistImage = styled.img`
   border-radius: 50%;
+  width: 150px;
+  height: 150px;
 `;
 const Artist = styled.div`
   text-align: center;
@@ -268,27 +267,28 @@ const StyledImage = styled.img`
   border-radius: 50%;
   width: 100px;
   height: 100px;
-`
+`;
 const RelArtistName = styled.p`
-font-family: Montserrat;
-font-style: normal;
-font-weight: 600;
-font-size: 20px;
-line-height: 20px;
-text-align: center;
-text-transform: lowercase;
-color: #FFFFFF;
-text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.75), 0px 4px 4px rgba(0, 0, 0, 0.5), 4px 8px 25px #000000;
-position: absolute;
-bottom: 0;
-text-align: center;
-width: 100px;
-margin: 5px;
-`
-const IndiArtistContainer = styled.div`
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: lowercase;
+  color: #ffffff;
+  text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.75), 0px 4px 4px rgba(0, 0, 0, 0.5),
+    4px 8px 25px #000000;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100px;
+  margin: 5px;
+`;
+const IndiArtistContainer = styled(Link)`
   position: relative;
   margin: 0 25px;
   scroll-snap-align: start;
-`
+`;
 
 export default ArtistRoute;

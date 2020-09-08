@@ -1,15 +1,14 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
 import ArtistRoute from "../ArtistRoute";
-import { requestAccessToken, receiveAccessToken, receiveAccessTokenError } from '../../action'
+import {
+  requestAccessToken,
+  receiveAccessToken,
+  receiveAccessTokenError,
+} from "../../action";
 
 const DEFAULT_ARTIST_ID = "5j4HeCoUlzhfWtjAfM1acR";
 
@@ -19,15 +18,15 @@ const App = () => {
   React.useEffect(() => {
     dispatch(requestAccessToken());
 
-    fetch('/spotify_access_token')
-      .then(res => res.json())
-      .then(token => {
+    fetch("/spotify_access_token")
+      .then((res) => res.json())
+      .then((token) => {
         dispatch(receiveAccessToken(token.access_token));
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(receiveAccessTokenError());
-      })
-  }, [])
+      });
+  }, []);
 
   return (
     <>
