@@ -1,7 +1,7 @@
-const path = require('path');
-const express = require('express');
-const bodyParser = require('body-parser');
-const fetch = require('isomorphic-fetch');
+const path = require("path");
+const express = require("express");
+const bodyParser = require("body-parser");
+const fetch = require("isomorphic-fetch");
 
 const app = new express();
 const port = 5678;
@@ -9,22 +9,23 @@ const port = 5678;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/spotify_access_token', async (req, res, next) =>  {
+app.get("/spotify_access_token", async (req, res, next) => {
   const clientId = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_SECRET;
 
   // We need, annoyingly, a base64-encoded string of our id:secret, for spotify.
   // We can use Buffers to do this for us.
-  const authString = Buffer.from(clientId + ':' + clientSecret).toString(
-    'base64'
+  const authString = Buffer.from(clientId + ":" + clientSecret).toString(
+    "base64"
   );
 
-  const response = await fetch('https://accounts.spotify.com/api/token', {
+  const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
-    body: 'grant_type=client_credentials',
+    body: "grant_type=client_credentials",
     headers: {
       Authorization: `Basic ${authString}`,
-      'Content-Type': 'application/x-www-form-urlencoded',    },
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
   });
 
   const json = await response.json();
@@ -32,19 +33,20 @@ app.get('/spotify_access_token', async (req, res, next) =>  {
   res.send(json);
 });
 
-app.post('https://accounts.spotify.com/api/token', (req, res, next) => {
+app.post("https://accounts.spotify.com/api/token", (req, res, next) => {
   fetch("/api/token", {
     method: "POST",
     body: JSON.stringify({
       status: newTweet,
     }),
     headers: {
-      'Authorization': `Basic ${authString}`,
-      'Content-Type': 'application/x-www-form-urlencoded',    },
-  })
-})
+      Authorization: `Basic ${authString}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+});
 
-app.listen(port, function(error) {
+app.listen(port, function (error) {
   if (error) {
     console.error(error);
   } else {
