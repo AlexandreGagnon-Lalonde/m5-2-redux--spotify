@@ -30,5 +30,15 @@ export const receiveTopTracks = (topTracks) =>( {
 });
 
 export const finishReceivingAllArtistProfile = () => ({
-  type: "FINISH_RECEIVING_ALL_ARTIST_PROFILE"
+  type: "FINISH_RECEIVING_ALL_ARTIST_PROFILE",
 });
+
+export const playSong = () => ({
+  type: "PLAY_SONG",
+})
+export const pauseSong = () => ({
+  type: "PAUSE_SONG",
+})
+export const stopSong = () => ({
+  type: "STOP_SONG",
+})

@@ -8,12 +8,18 @@ import {
   Link,
   useParams,
 } from "react-router-dom";
+import { PlayButton } from "react-play-button";
+
 import { fetchArtistProfile, fetchTopTracks } from "../../helpers/api-helpers";
 import {
   receiveArtistProfile,
   receiveTopTracks,
   finishReceivingAllArtistProfile,
 } from "../../action";
+import { FaPlay } from 'react-icons/fa';
+import { FaStop } from 'react-icons/fa';
+import { FaPause } from 'react-icons/fa';
+
 
 let numeral = require("numeral");
 
@@ -64,13 +70,17 @@ const ArtistRoute = () => {
           </Follower>
         </Artist>
         <Tracks>
-          {topTracks
-            ? topTracks.tracks.tracks.map((track, index) => {
-                if (index < 3) {
-                  return <Track>{track.name}</Track>;
-                }
-              })
-            : null}
+          <TracksTitle>Top tracks</TracksTitle>
+          <TrackContainer>
+            {topTracks
+              ? topTracks.tracks.tracks.map((track, index) => {
+                console.log(track)
+                  if (index < 3) {
+                    return <Track><FaPlay /></Track>;
+                  }
+                })
+              : null}
+          </TrackContainer>
         </Tracks>
         <GenreContainer>
           <TagTitle>Tags</TagTitle>
@@ -159,8 +169,11 @@ const Artist = styled.div`
   position: relative;
 `;
 
-const Tracks = styled.div``;
-const Track = styled.p`
+const Tracks = styled.div`
+  width: 60%;
+  text-align: center;
+`;
+const Track = styled.button`
   color: #fff;
   font-family: Montserrat;
   font-style: normal;
@@ -168,7 +181,27 @@ const Track = styled.p`
   font-size: 14px;
   line-height: 17px;
   text-transform: lowercase;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(75, 75, 75, 0.4);
+  border-radius: 50%;
+  outline: none;
+  border: none;
 `;
+const TracksTitle = styled.h3`
+color: #fff;
+font-family: Montserrat;
+font-style: normal;
+font-weight: 600;
+font-size: 21px;
+line-height: 26px;
+/* identical to box height */
 
+text-transform: lowercase;
+`
+const TrackContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`
 
 export default ArtistRoute;

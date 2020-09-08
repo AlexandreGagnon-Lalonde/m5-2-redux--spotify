@@ -8988,6 +8988,13 @@ react-error-overlay@^5.1.4:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.1.6.tgz#0cd73407c5d141f9638ae1e0c63e7b2bf7e9929d"
   integrity sha512-X1Y+0jR47ImDVr54Ab6V9eGk0Hnu7fVWGeHQSOXHf/C2pF9c6uy3gef8QUeuUiWlNb0i08InPSE5a/KJzNzw1Q==
 
+react-icons@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.11.0.tgz#2ca2903dfab8268ca18ebd8cc2e879921ec3b254"
+  integrity sha512-JRgiI/vdF6uyBgyZhVyYJUZAop95Sy4XDe/jmT3R/bKliFWpO/uZBwvSjWEdxwzec7SYbEPNPck0Kff2tUGM2Q==
+  dependencies:
+    camelcase "^5.0.0"
+
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.9.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -9006,7 +9013,7 @@ react-loader-spinner@^3.1.5:
     babel-runtime "^6.26.0"
     prop-types "^15.7.2"
 
-react-play-button@0.2.2:
+react-play-button@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/react-play-button/-/react-play-button-0.2.2.tgz#a1bd872b1bb56bc8723825248948223fd0785953"
   integrity sha512-7gy/jBwADwgCRqWzrUSrsrfoWAAfJnHAscQF84xmT0fy1jqFFsixI9fGkQJb8AhPZrlDLYuLY6Ta4sZ+UI1RCg==

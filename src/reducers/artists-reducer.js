@@ -41,6 +41,24 @@ export default function artistsReducer(state = initialState, action) {
         }
       };
     }
+    case "PLAY_SONG": {
+      return {
+        ...state,
+        status: "active",
+      };
+    }
+    case "PAUSE_SONG": {
+      return {
+        ...state,
+        status: "pause",
+      };
+    }
+    case "STOP_SONG": {
+      return {
+        ...state,
+        status: "stop",
+      };
+    }
     default: {
       return state;
     }
